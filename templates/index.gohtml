@@ -1,0 +1,24 @@
+{{ template "head.gohtml" . }}
+<body>
+{{ template "header.gohtml" . }}
+<main>
+	<input type="radio" name="nav" id="nav-home" checked/>
+	<label for="nav-home" title="Home">Home</label>
+
+	<input type="radio" name="nav" id="nav-projects"/>
+	<label for="nav-projects" title="Projects">Projects</label>
+
+	<div id="home" class="nav">
+		{{ template "home.gohtml" .}}
+	</div>
+	<ul id="projects" class="nav">
+		{{ template "projects.gohtml" .}}
+	</ul>
+</main>
+<footer>
+	<p>© 2024 - <a href="https://github.com/krispeckt" target="_blank">@krispeckt</a></p>
+</footer>
+<script src="/assets/theme.js" defer></script>
+<script src="/assets/script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+.idea/
+go.work
+go.work.sum
+build
+config.yml
+go.sum
