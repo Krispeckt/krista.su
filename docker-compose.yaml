@@ -1,0 +1,26 @@
+services:
+    krista-app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        networks:
+            - webnet
+        restart: on-failure
+        ports:
+            - "8080:8080"
+
+    nginx:
+        image: nginx:latest
+        ports:
+            - "80:80"
+        volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            - webnet
+        restart: always
+        depends_on:
+            - krista-app
+
+networks:
+    webnet:
+        driver: bridge
