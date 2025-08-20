@@ -23,6 +23,4 @@ COPY config.yml /bin/
 COPY templates /templates/
 COPY assets /assets/
 
-EXPOSE 8080
-
 ENTRYPOINT ["./krista.su", "-config", "/bin/config.yml"]
