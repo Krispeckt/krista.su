@@ -4,12 +4,13 @@ services:
             context: .
             dockerfile: Dockerfile
         networks:
-            - internal
+            - shared
         restart: always
         ports:
             - "1234:1234"
 
 networks:
-    internal:
+    shared:
         external: true
         driver: bridge
+        name: internal
