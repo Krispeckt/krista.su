@@ -8,3 +8,8 @@ services:
         restart: always
         ports:
             - "1234:1234"
+
+networks:
+    internal:
+        external: true
+        driver: bridge
