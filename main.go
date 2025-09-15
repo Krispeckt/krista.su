@@ -4,7 +4,6 @@ import (
 	"context"
 	"embed"
 	"flag"
-	"github.com/krispeckt/krista.su/krista"
 	"html/template"
 	"io"
 	"log/slog"
@@ -13,6 +12,8 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/krispeckt/krista.su/krista"
 
 	chtml "github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/alecthomas/chroma/v2/styles"

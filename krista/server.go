@@ -2,12 +2,13 @@ package krista
 
 import (
 	"errors"
-	"github.com/shurcooL/githubv4"
-	"github.com/yuin/goldmark"
 	"io"
 	"log/slog"
 	"net/http"
 	"os"
+
+	"github.com/shurcooL/githubv4"
+	"github.com/yuin/goldmark"
 )
 
 type ExecuteTemplateFunc func(wr io.Writer, name string, data any) error
