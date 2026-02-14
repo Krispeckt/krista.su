@@ -4,3 +4,4 @@ go.work.sum
 build
 app/config.yml
 go.sum
+config.yml

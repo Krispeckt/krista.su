@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/alecthomas/chroma/v2"
 	chtml "github.com/alecthomas/chroma/v2/formatters/html"
@@ -15,7 +16,9 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/stampede"
-	"github.com/topi314/slog-chi"
+	memcache "github.com/goware/cachestore-mem"
+	cachestore "github.com/goware/cachestore2"
+	"github.com/krispeckt/krista.su/slogchi"
 )
 
 var (
@@ -49,7 +52,10 @@ func (s *Server) Routes() http.Handler {
 
 	stampedeMiddleware := func(handler http.Handler) http.Handler { return handler }
 	if s.cfg.Cache != nil && s.cfg.Cache.Size > 0 && s.cfg.Cache.TTL > 0 {
-		stampedeMiddleware = stampede.HandlerWithKey(s.cfg.Cache.Size, s.cfg.Cache.TTL, cacheKeyFunc)
+		backend, err := memcache.NewBackend(s.cfg.Cache.Size, cachestore.WithDefaultKeyExpiry(5*time.Minute))
+		if err == nil {
+			stampedeMiddleware = stampede.HandlerWithKey(nil, backend, s.cfg.Cache.TTL, cacheKeyFunc)
+		}
 	}
 
 	r.Group(func(r chi.Router) {
@@ -69,13 +75,13 @@ func (s *Server) Routes() http.Handler {
 	return r
 }
 
-func cacheKeyFunc(r *http.Request) uint64 {
+func cacheKeyFunc(r *http.Request) (uint64, error) {
 	theme := "dark"
 	cookie, _ := r.Cookie("theme")
 	if cookie != nil {
 		theme = cookie.Value
 	}
-	return stampede.BytesToHash([]byte(theme), []byte(strings.ToLower(r.URL.Path)), []byte(r.URL.RawQuery))
+	return stampede.BytesToHash([]byte(theme), []byte(strings.ToLower(r.URL.Path)), []byte(r.URL.RawQuery)), nil
 }
 
 func (s *Server) repositories(w http.ResponseWriter, r *http.Request) {

@@ -72,7 +72,7 @@ func (c GitHubConfig) String() string {
 }
 
 type CacheConfig struct {
-	Size int           `yaml:"size"`
+	Size uint32        `yaml:"size"`
 	TTL  time.Duration `yaml:"ttl"`
 }
 
