@@ -18,7 +18,6 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 FROM alpine
 
 COPY --from=build /build/krista.su .
-COPY config.yml /bin/
 
 COPY templates /templates/
 COPY assets /assets/
